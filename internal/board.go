@@ -77,7 +77,9 @@ func (b *Board) Init() {
 	}
 }
 
-func (b *Board) Print() {
+func (b *Board) TerminalPrint() {
+	println("a b c d e f g h")
+
 	for i := 0; i < BoardSize; i++ {
 		for j := 0; j < BoardSize; j++ {
 			if b.Spots[i][j].Piece != nil {
@@ -89,6 +91,7 @@ func (b *Board) Print() {
 			}
 			print(string(b.Spots[i][j].Icon) + " ")
 		}
+		print(BoardSize - i)
 		println()
 	}
 }
