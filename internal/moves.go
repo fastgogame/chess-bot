@@ -11,7 +11,17 @@ func (b *Board) Move(commandMove string) string {
 		return fmt.Sprintf("errror: %v", err)
 	}
 	b.TerminalPrint()
+	b.switchSide()
 	return "Move successful"
+}
+
+func (b *Board) switchSide() {
+	b.WhiteTurn = !b.WhiteTurn
+	if b.WhiteTurn {
+		println("White's turn")
+	} else {
+		println("Black's turn")
+	}
 }
 
 func isValidMove(r []rune) bool {
