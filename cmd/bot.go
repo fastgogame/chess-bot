@@ -15,7 +15,6 @@ func init() {
 func main() {
 	b := new(internal.Board)
 	b.Init()
-	b.TerminalPrint()
 	b.DefaultSetup()
 	b.TerminalPrint()
 
@@ -28,7 +27,7 @@ func main() {
 			break
 		}
 		s = strings.TrimSpace(s)
-		if s == "exit" {
+		if s == "qq" {
 			fmt.Println("Exiting...")
 			break
 		}
