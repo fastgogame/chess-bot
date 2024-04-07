@@ -29,17 +29,17 @@ func isValidMove(r []rune) bool {
 	return true
 }
 
-func (b *Board) parseMove(commandMove string) (toRankr error) {
+func (b *Board) parseMove(commandMove string) (err error) {
 
-	movtoRankunes := []rune(commandMove)
-	if !isValidMove(movtoRankunes) {
+	moveRunes := []rune(commandMove)
+	if !isValidMove(moveRunes) {
 		return errors.New("invalid move string")
 	}
 
-	fromFile := int(movtoRankunes[0] - 'a')
-	fromRank := 7 - int(movtoRankunes[1]-'1')
-	toFile := int(movtoRankunes[2] - 'a')
-	toRank := 7 - int(movtoRankunes[3]-'1')
+	fromFile := int(moveRunes[0] - 'a')
+	fromRank := 7 - int(moveRunes[1]-'1')
+	toFile := int(moveRunes[2] - 'a')
+	toRank := 7 - int(moveRunes[3]-'1')
 
 	fromSpot := &b.Spots[fromRank][fromFile]
 	toSpot := &b.Spots[toRank][toFile]
