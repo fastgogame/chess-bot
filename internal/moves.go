@@ -24,7 +24,7 @@ func (b *Board) switchSide() {
 	}
 }
 
-func isValidMove(r []rune) bool {
+func isValidCommandMove(r []rune) bool {
 	if len(r) != 4 {
 		return false
 	}
@@ -42,7 +42,7 @@ func isValidMove(r []rune) bool {
 func (b *Board) parseMove(commandMove string) (err error) {
 
 	moveRunes := []rune(commandMove)
-	if !isValidMove(moveRunes) {
+	if !isValidCommandMove(moveRunes) {
 		return errors.New("invalid move string")
 	}
 
@@ -54,7 +54,7 @@ func (b *Board) parseMove(commandMove string) (err error) {
 	fromSpot := &b.Spots[fromRank][fromFile]
 	toSpot := &b.Spots[toRank][toFile]
 
-	if fromSpot.Piece != nil {
+	if fromSpot.Piece != nil && fromSpot.Piece.White == b.WhiteTurn {
 		print("switching ... ")
 		switch fromSpot.Piece.Icon {
 		case '♟', '♙':

@@ -8,10 +8,6 @@ import (
 	"strings"
 )
 
-func init() {
-	// TODO
-}
-
 func main() {
 	b := new(internal.Board)
 	b.Init()
@@ -19,6 +15,7 @@ func main() {
 	b.TerminalPrint()
 
 	reader := bufio.NewReader(os.Stdin)
+	//Move example: d2d4 or a1b2
 	for {
 		fmt.Print("Enter your move: ")
 		s, err := reader.ReadString('\n')
