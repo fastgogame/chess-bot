@@ -5,10 +5,17 @@ import (
 	"fmt"
 )
 
+const (
+	minFile = 'a'
+	maxFile = 'h'
+	minRank = '1'
+	maxRank = '8'
+)
+
 func (b *Board) Move(commandMove string) string {
 	err := b.parseMove(commandMove)
 	if err != nil {
-		return fmt.Sprintf("errror: %v", err)
+		return fmt.Sprintf("error: %v", err)
 	}
 	b.TerminalPrint()
 	b.switchSide()
@@ -29,46 +36,46 @@ func isValidCommandMove(r []rune) bool {
 		return false
 	}
 
-	if r[0] < 'a' || r[0] > 'h' || r[2] < 'a' || r[2] > 'h' {
+	if r[0] < minFile || r[0] > maxFile || r[2] < minFile || r[2] > maxFile {
 		return false
 	}
 
-	if r[1] < '1' || r[1] > '8' || r[3] < '1' || r[3] > '8' {
+	if r[1] < minRank || r[1] > maxRank || r[3] < minRank || r[3] > maxRank {
 		return false
 	}
 	return true
 }
 
 func (b *Board) parseMove(commandMove string) (err error) {
-
 	moveRunes := []rune(commandMove)
 	if !isValidCommandMove(moveRunes) {
 		return errors.New("invalid move string")
 	}
 
-	fromFile := int(moveRunes[0] - 'a')
-	fromRank := 7 - int(moveRunes[1]-'1')
-	toFile := int(moveRunes[2] - 'a')
-	toRank := 7 - int(moveRunes[3]-'1')
+	fromFile := int(moveRunes[0] - minFile)
+	fromRank := 7 - int(moveRunes[1]-minRank)
+	toFile := int(moveRunes[2] - minFile)
+	toRank := 7 - int(moveRunes[3]-minRank)
 
 	fromSpot := &b.Spots[fromRank][fromFile]
 	toSpot := &b.Spots[toRank][toFile]
 
 	if fromSpot.Piece != nil && fromSpot.Piece.White == b.WhiteTurn {
-		print("switching ... ")
+		println("Switching... ")
 		switch fromSpot.Piece.Icon {
-		case '♟', '♙':
-			println("pawn\n")
+		case whitePawn, blackPawn:
+			println("Pawn\n")
 			b.movePawn(fromSpot, toSpot)
 		default:
 			return errors.New("invalid move switch")
 		}
-
+	} else {
+		return errors.New("missing piece")
 	}
 	return nil
 }
 
-func (b *Board) movePawn(fs, ts *Spot) {
-	ts.Piece = fs.Piece
-	fs.Piece = nil
+func (b *Board) movePawn(fromSpot, toSpot *Spot) {
+	toSpot.Piece = fromSpot.Piece
+	fromSpot.Piece = nil
 }

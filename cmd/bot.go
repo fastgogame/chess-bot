@@ -8,26 +8,41 @@ import (
 	"strings"
 )
 
+const (
+	exitCommand = "qq"
+)
+
 func main() {
-	b := new(internal.Board)
-	b.Init()
-	b.DefaultSetup()
-	b.TerminalPrint()
+	gameBoard := internal.NewBoard()
+	gameBoard.DefaultSetup()
+	gameBoard.TerminalPrint()
 
 	reader := bufio.NewReader(os.Stdin)
-	//Move example: d2d4 or a1b2
+	playGame(reader, gameBoard)
+}
+
+func playGame(reader *bufio.Reader, board *internal.Board) {
 	for {
 		fmt.Print("Enter your move: ")
-		s, err := reader.ReadString('\n')
+		move, err := readMove(reader)
 		if err != nil {
 			fmt.Println("Error reading input:", err)
 			break
 		}
-		s = strings.TrimSpace(s)
-		if s == "qq" {
+
+		if move == exitCommand {
 			fmt.Println("Exiting...")
 			break
 		}
-		println(b.Move(s))
+
+		println(board.Move(move))
 	}
+}
+
+func readMove(reader *bufio.Reader) (string, error) {
+	s, err := reader.ReadString('\n')
+	if err != nil {
+		return "", err
+	}
+	return strings.TrimSpace(s), nil
 }
