@@ -18,10 +18,9 @@ const (
 )
 
 type Piece struct {
-	Killed bool
-	White  bool
-	Icon   rune
-	Moved  bool
+	White bool
+	Icon  rune
+	Moved bool
 }
 
 type Spot struct {
